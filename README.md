@@ -125,7 +125,7 @@ Accept: application/w4ml+xml  →  raw W4ML source for a parser
 No separate API surface. No out-of-band tool registry. No synchronization problem between
 the "documentation site" and the "API spec." They are the same resource.
 
-W4 pages are authored in **W4ML** — an XML-based markup language with extension `.w4`:
+W4 pages are authored in **W4ML** — a Web4-native markup language with extension `.w4`. It supports tolerance for unknown extension tags/attrs, while keeping core structure strict (not HTML-style auto-fixing):
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
