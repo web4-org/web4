@@ -104,6 +104,45 @@ services *alongside* content, and let HTTP do the rest.
 
 ---
 
+## Future Approach
+
+New protocol project adoption requires ecosystem, ecosystem requires
+adoption. Most proposed web standards die in this loop. Web4 is designed to sidestep it, not
+solve it head-on.
+
+**It builds on infrastructure that already exists.** HTTP, URLs, and content negotiation are
+thirty-year-old solved problems. Web4 extends the document format — it does not ask you to
+replace your network, your hosting, or your routing. Any existing HTTP server can serve W4 pages
+today without changing a single DNS record.
+
+**Existing APIs can convert automatically.** The biggest obstacle for any new protocol is asking
+developers to rewrite what they already have. Web4's answer: an OpenAPI spec compiles to a W4
+page; an MCP server bridges to a W4 gateway. The addressable surface of Web4 is not "APIs written
+native-W4 from scratch" — it is every documented API that already exists, reachable through a
+thin translation layer.
+
+**Value does not require public ecosystem adoption.** A single organization can deploy a private
+W4 gateway over its internal tools — its own databases, scripts, and SaaS integrations — and
+immediately gain typed callable services with consent enforcement, audit trails, and policy
+enforcement. The governance value does not depend on a public network effect. A team of five can
+benefit from Web4 before a single public W4 page exists outside this repository.
+
+**Safety is a product, not a footnote.** The current generation of always-on, system-level agents
+has produced a growing record of incidents: instructions executed out of context, prompt injection
+chains cascading across tools, irreversible side effects triggered without user awareness. Web4
+does not compete on capability maximalism. It competes on *trustworthy invocation*: effects
+declarations an agent can reason about before acting; consent gates that require human approval for
+write operations; capability tokens scoped to specific services; policy enforced at the gateway
+rather than hoped for in the prompt. The proposition is not "your agent can do more" — it is
+"your agent can be deployed in production without requiring a human hand on the kill switch at all
+times."
+
+The strategy is the inverse of the ecosystem-first playbook that has stalled so many protocols:
+prove value at the smallest possible scope first (one gateway, one private API surface, one team),
+then let network effects accumulate organically as W4 pages begin linking to each other.
+
+---
+
 ## Web4: One Resource, Two Audiences
 
 A **W4 page** is a single HTTP-addressable document that is simultaneously:
