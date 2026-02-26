@@ -1,0 +1,5 @@
+<w4s xmlns="urn:w4ml:0.1" service="math.cap_http_bridge">
+  <bindings>
+    <binding type="http" method="POST" endpoint="/services/math.open_local_add.w4s" contentType="application/json"/>
+  </bindings>
+</w4s>

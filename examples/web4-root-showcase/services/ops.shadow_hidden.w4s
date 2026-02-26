@@ -1,0 +1,5 @@
+<w4s xmlns="urn:w4ml:0.1" service="ops.shadow_hidden">
+  <bindings>
+    <binding type="local" exec="bin:python3 services/calc_engine.py shadow"/>
+  </bindings>
+</w4s>

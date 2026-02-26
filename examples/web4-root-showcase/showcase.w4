@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<w4 xmlns="urn:w4ml:0.1" xmlns:fx="urn:web4:effects:demo" version="0.1" id="https://demo.local/web4/showcase.w4">
+  <head>
+    <title lang="en">Web4 Galaxy Console</title>
+    <meta name="description" content="An immersive showcase that lights up all core Web4 capabilities."/>
+    <meta name="theme-color" content="#0b1020"/>
+    <link rel="canonical" href="https://demo.local/web4/showcase.w4"/>
+    <link rel="import" href="https://demo.local/web4/common.types.w4" type="application/w4ml+xml"/>
+    <link rel="peer" href="https://peer.demo.local/index.w4" type="application/w4ml+xml"/>
+    <link rel="template" href="templates/neon-showcase.html.tera" type="text/x-tera"/>
+  </head>
+  <body>
+    <section id="launch" name="Launch Bay" class="hero" load="eager">
+      Welcome to the Web4 Galaxy Console. Here you will see how fragment selection, schema
+      constraints, service policy, open/capability/interactive consent modes, and local/HTTP
+      bindings all work together.
+    </section>
+
+    <section id="lab" name="Fusion Lab" class="panel" load="lazy">
+      Lazy-loaded experiment zone: expand to experience capability token issuance,
+      interactive challenge approval, and end-to-end service invocation.
+    </section>
+
+    <section id="vault" name="Silent Vault" class="panel" load="never">
+      This section is never rendered in HTML but is counted in statistics,
+      demonstrating the load=never behaviour.
+    </section>
+
+    <schema>
+      <type id="CalcInput" kind="object">
+        <property name="a" type="int" required="true" desc="Left operand"/>
+        <property name="b" type="int" required="true" desc="Right operand"/>
+        <property name="theme" type="string" required="false" desc="Style hint"/>
+        <additionalProperties value="false"/>
+      </type>
+
+      <type id="CalcOutput" kind="object">
+        <property name="sum" type="int" required="true"/>
+        <property name="narrative" type="string" required="true"/>
+        <property name="engine" type="string" required="true"/>
+        <additionalProperties value="false"/>
+      </type>
+    </schema>
+
+    <service id="math.open_local_add" name="Open Local Add" kind="tool" class="svc-open" load="eager" sourceRef="services/math.open_local_add.w4s">
+      <intent lang="en">No authorization required. Executes addition directly via a local binding.</intent>
+      <input typeRef="CalcInput"/>
+      <output typeRef="CalcOutput"/>
+      <effects level="none"/>
+      <consent mode="open"/>
+      <policy>
+        <allowOrigins value="*"/>
+      </policy>
+    </service>
+
+    <service id="math.cap_http_bridge" name="Capability HTTP Bridge" kind="tool" class="svc-cap" load="eager" sourceRef="services/math.cap_http_bridge.w4s">
+      <intent lang="en">Issues a capability token first, then bridges to the open service via an HTTP binding.</intent>
+      <input typeRef="CalcInput"/>
+      <output typeRef="CalcOutput"/>
+      <effects level="read"/>
+      <consent mode="capability"/>
+      <policy>
+        <rateLimit value="3/s"/>
+        <allowOrigins value="*"/>
+        <allowAgents value="trusted-agent"/>
+      </policy>
+      <errors>
+        <error code="UNAUTHORIZED" retryable="false"/>
+      </errors>
+    </service>
+
+    <service id="math.interactive_remix" name="Interactive Consensus Add" kind="tool" class="svc-int" load="lazy" sourceRef="services/math.interactive_remix.w4s">
+      <intent lang="en">Creates a challenge and executes after human approval, demonstrating the full interactive consent lifecycle.</intent>
+      <input typeRef="CalcInput"/>
+      <output typeRef="CalcOutput"/>
+      <effects level="write"/>
+      <consent mode="interactive"/>
+      <policy>
+        <rateLimit value="1/s"/>
+        <allowOrigins value="*"/>
+      </policy>
+    </service>
+
+    <service id="ops.shadow_hidden" name="Shadow Hidden" kind="tool" class="svc-hidden" load="never" sourceRef="services/ops.shadow_hidden.w4s">
+      <intent lang="en">Hidden service: demonstrates the load=never statistics behaviour.</intent>
+      <input typeRef="CalcInput"/>
+      <output typeRef="CalcOutput"/>
+      <effects level="none"/>
+      <consent mode="open"/>
+    </service>
+
+    <fx:scene stage="nebula">custom extension node for tooling visibility</fx:scene>
+  </body>
+</w4>

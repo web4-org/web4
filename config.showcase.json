@@ -1,0 +1,27 @@
+{
+  "server": {
+    "bind_addr": "127.0.0.1:8090"
+  },
+  "document": {
+    "root": "examples/web4-root-showcase",
+    "entry_w4": "showcase.w4"
+  },
+  "runtime": {
+    "http_base_url": "http://127.0.0.1:8090"
+  },
+  "security": {
+    "jwt_secret": "change-me",
+    "admin_token": "change-this-admin-token"
+  },
+  "debug": {
+    "enable_error_route": false
+  },
+  "rendering": {
+    "template_loader": {
+      "allow_remote": false,
+      "allowed_remote_hosts": [],
+      "timeout_ms": 3000,
+      "max_bytes": 262144
+    }
+  }
+}

@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="{{ page.lang }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page.title }}</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #050816;
+        --ink: #e7ecff;
+        --muted: #9aa8d9;
+        --line: rgba(99, 102, 241, 0.35);
+        --c1: #22d3ee;
+        --c2: #a78bfa;
+        --c3: #f472b6;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(1100px 420px at -10% -10%, rgba(34, 211, 238, 0.16), transparent),
+          radial-gradient(900px 380px at 110% -10%, rgba(167, 139, 250, 0.2), transparent),
+          var(--bg);
+      }
+      .wrap { max-width: 1080px; margin: 0 auto; padding: 1.4rem 1rem 3rem; }
+      .hero {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 1rem 1.1rem;
+        background: linear-gradient(130deg, rgba(14, 24, 54, 0.92), rgba(12, 16, 36, 0.92));
+        box-shadow: 0 24px 56px rgba(4, 8, 24, 0.6);
+      }
+      h1 { margin: 0; font-size: clamp(1.5rem, 1.1rem + 2vw, 2.4rem); }
+      .sub { margin: .45rem 0 0; color: var(--muted); }
+      .metrics { margin-top: .8rem; display: flex; flex-wrap: wrap; gap: .45rem; }
+      .badge {
+        font-size: .78rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: .2rem .56rem;
+        color: #dbe4ff;
+      }
+      .grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: .85rem; margin-top: .85rem; }
+      @media (max-width: 920px) { .grid { grid-template-columns: 1fr; } }
+      .panel {
+        border: 1px solid rgba(154, 168, 217, 0.25);
+        border-radius: 14px;
+        background: rgba(8, 12, 28, 0.74);
+        padding: .9rem;
+      }
+      .title { margin: 0 0 .4rem; font-size: 1rem; }
+      .items { display: grid; gap: .56rem; }
+      .item {
+        border: 1px solid rgba(167, 139, 250, 0.25);
+        border-radius: 12px;
+        padding: .7rem;
+        background: linear-gradient(155deg, rgba(11, 17, 37, 0.9), rgba(10, 13, 28, 0.85));
+      }
+      details.item > summary { cursor: pointer; list-style: none; }
+      details.item > summary::-webkit-details-marker { display: none; }
+      .k { text-transform: uppercase; font-size: .72rem; color: var(--muted); letter-spacing: .09em; }
+      .t { margin: .35rem 0; font-weight: 700; }
+      .d { margin: 0; color: #c9d6ff; line-height: 1.5; }
+      .chips { margin-top: .5rem; display: flex; flex-wrap: wrap; gap: .35rem; }
+      .chip { font-size: .72rem; border-radius: 999px; padding: .16rem .5rem; border: 1px solid rgba(34, 211, 238, 0.35); }
+      .play label { display: block; font-size: .78rem; color: var(--muted); margin-bottom: .22rem; }
+      .row { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+      .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .5rem; margin-top: .5rem; }
+      input {
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid rgba(154, 168, 217, 0.35);
+        background: rgba(9, 13, 28, 0.86);
+        color: var(--ink);
+        padding: .5rem .58rem;
+      }
+      button {
+        border: 1px solid rgba(99, 102, 241, 0.55);
+        border-radius: 10px;
+        padding: .5rem .55rem;
+        cursor: pointer;
+        color: white;
+        background: linear-gradient(140deg, rgba(79, 70, 229, 0.9), rgba(236, 72, 153, 0.78));
+      }
+      button:hover { filter: brightness(1.08); }
+      pre {
+        margin: .65rem 0 0;
+        min-height: 148px;
+        max-height: 340px;
+        overflow: auto;
+        padding: .62rem;
+        border-radius: 10px;
+        border: 1px solid rgba(34, 211, 238, 0.35);
+        background: rgba(4, 9, 22, 0.9);
+        color: #bfe8ff;
+      }
+      .foot { margin-top: .8rem; color: var(--muted); font-size: .78rem; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="hero">
+        <h1>{{ page.title }}</h1>
+        {% if page.description %}<p class="sub">{{ page.description }}</p>{% endif %}
+        <div class="metrics">
+          <span class="badge">sections {{ stats.sections_total }}</span>
+          <span class="badge">services {{ stats.services_total }}</span>
+          <span class="badge">eager {{ stats.eager_count }}</span>
+          <span class="badge">lazy {{ stats.lazy_count }}</span>
+          <span class="badge">hidden {{ stats.never_count }}</span>
+          {% if request.fragment %}<span class="badge">fragment {{ request.fragment }}</span>{% endif %}
+        </div>
+      </header>
+
+      <section class="grid">
+        <div class="panel">
+          <h2 class="title">文档元素</h2>
+          <div class="items">
+            {% for item in items %}
+              {% if item.collapsed %}
+                <details class="item" id="{{ item.id }}">
+                  <summary>
+                    <div class="k">{{ item.kind }}</div>
+                    <div class="t">{{ item.title }}</div>
+                  </summary>
+                  <p class="d">{{ item.content }}</p>
+                  <div class="chips">
+                    <span class="chip">load {{ item.load }}</span>
+                    {% if item.effects %}<span class="chip">effects {{ item.effects }}</span>{% endif %}
+                    {% if item.consent_mode %}<span class="chip">consent {{ item.consent_mode }}</span>{% endif %}
+                  </div>
+                </details>
+              {% else %}
+                <article class="item" id="{{ item.id }}">
+                  <div class="k">{{ item.kind }}</div>
+                  <div class="t">{{ item.title }}</div>
+                  <p class="d">{{ item.content }}</p>
+                  <div class="chips">
+                    <span class="chip">load {{ item.load }}</span>
+                    {% if item.effects %}<span class="chip">effects {{ item.effects }}</span>{% endif %}
+                    {% if item.consent_mode %}<span class="chip">consent {{ item.consent_mode }}</span>{% endif %}
+                  </div>
+                </article>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="panel play">
+          <h2 class="title">交互实验台</h2>
+          <div class="row">
+            <div>
+              <label>a</label>
+              <input id="a" type="number" value="7">
+            </div>
+            <div>
+              <label>b</label>
+              <input id="b" type="number" value="13">
+            </div>
+          </div>
+          <div style="margin-top:.5rem;">
+            <label>theme</label>
+            <input id="theme" value="nebula">
+          </div>
+          <div style="margin-top:.5rem;">
+            <label>admin bearer token (仅本地演示)</label>
+            <input id="admin" value="change-this-admin-token">
+          </div>
+          <div class="row3">
+            <button type="button" onclick="invokeOpen()">Open 调用</button>
+            <button type="button" onclick="invokeCapability()">Capability 调用</button>
+            <button type="button" onclick="invokeInteractive()">Interactive 调用</button>
+          </div>
+          <pre id="output">等待调用...</pre>
+          <div class="foot">template {{ runtime.template_source }}</div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const output = document.getElementById("output");
+
+      function payload() {
+        return {
+          a: Number(document.getElementById("a").value || 0),
+          b: Number(document.getElementById("b").value || 0),
+          theme: document.getElementById("theme").value || "nebula"
+        };
+      }
+
+      function adminToken() {
+        return document.getElementById("admin").value.trim();
+      }
+
+      function show(label, data) {
+        output.textContent = label + "\n" + JSON.stringify(data, null, 2);
+      }
+
+      async function postJson(url, body, headers = {}) {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: Object.assign({ "content-type": "application/json" }, headers),
+          body: JSON.stringify(body)
+        });
+        const data = await res.json().catch(() => ({ message: "non-json response" }));
+        if (!res.ok) {
+          throw { status: res.status, data };
+        }
+        return data;
+      }
+
+      async function invokeOpen() {
+        try {
+          const data = await postJson("/services/math.open_local_add.w4s", payload());
+          show("Open success", data);
+        } catch (err) {
+          show("Open failed", err);
+        }
+      }
+
+      async function invokeCapability() {
+        try {
+          const tokenResp = await postJson(
+            "/consent/issue",
+            { service_id: "math.cap_http_bridge", ttl_seconds: 600 },
+            { authorization: "Bearer " + adminToken() }
+          );
+          const data = await postJson(
+            "/services/math.cap_http_bridge.w4s",
+            payload(),
+            {
+              authorization: "W4-Capability " + tokenResp.token,
+              "x-web4-agent-id": "trusted-agent"
+            }
+          );
+          show("Capability success", { token: tokenResp, result: data });
+        } catch (err) {
+          show("Capability failed", err);
+        }
+      }
+
+      async function invokeInteractive() {
+        try {
+          const challenge = await postJson(
+            "/consent/challenge",
+            { service_id: "math.interactive_remix", ttl_seconds: 600 },
+            { authorization: "Bearer " + adminToken() }
+          );
+          await postJson(
+            "/consent/challenge/" + challenge.challenge_id + "/approve",
+            {},
+            { authorization: "Bearer " + adminToken() }
+          );
+          const data = await postJson(
+            "/services/math.interactive_remix.w4s",
+            payload(),
+            { "x-web4-challenge": challenge.challenge_id }
+          );
+          show("Interactive success", { challenge, result: data });
+        } catch (err) {
+          show("Interactive failed", err);
+        }
+      }
+    </script>
+  </body>
+</html>

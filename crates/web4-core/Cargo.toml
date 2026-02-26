@@ -1,0 +1,23 @@
+[package]
+name = "web4-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+async-trait.workspace = true
+http.workspace = true
+jsonschema.workspace = true
+reqwest.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
+regex = "1"
+roxmltree = "0.20"
+shell-words = "1"
+
+[dev-dependencies]
+serde_json.workspace = true
+axum.workspace = true

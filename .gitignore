@@ -1,0 +1,29 @@
+# Rust build artifacts
+/target/
+**/*.rs.bk
+
+# IDE/editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temp
+*.log
+*.tmp
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+config.json
+
+# Test/runtime outputs
+coverage/
+*.profraw
+*.profdata
